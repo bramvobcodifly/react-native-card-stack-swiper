@@ -10,6 +10,8 @@ import {
   Platform
 } from 'react-native';
 
+import {SvgXml} from 'react-native-svg';
+
 const { height, width } = Dimensions.get('window');
 
 class CardStack extends Component {
@@ -394,8 +396,29 @@ class CardStack extends Component {
 
   render() {
 
+    const xmlAccept= `
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.65">
+    <circle cx="60" cy="60" r="60" fill="white"/>
+    <path d="M47.9996 76.6799L31.3196 59.9999L25.6396 65.6399L47.9996 87.9999L95.9996 39.9999L90.3596 34.3599L47.9996 76.6799Z" fill="#4ECE86"/>
+    </g>
+    </svg>
+    `;
+    const xmlDecline= `
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.65">
+    <circle cx="60" cy="60" r="60" fill="white"/>
+    <path d="M88 37.64L82.36 32L60 54.36L37.64 32L32 37.64L54.36 60L32 82.36L37.64 88L60 65.64L82.36 88L88 82.36L65.64 60L88 37.64Z" fill="#FF4D4D"/>
+    </g>
+    </svg>
+    `;
     const { secondCardZoom, renderNoMoreCards } = this.props;
     const { drag, dragDistance, cardA, cardB, topCard, sindex } = this.state;
+
+    const opacityX = drag.x.interpolate({ inputRange: [-width / 3, width * .025, width / 3], outputRange: [0, 0, 1], extrapolate: 'clamp', });
+    const opacityY = drag.x.interpolate({inputRange : [-width / 3, -width /  4, -width / 8], outputRange:[1, 1, 0], extrapolate: 'clamp', })
+    const accept = <Animated.View style={{opacity: opacityX, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlAccept} width="128px" height="128px" /></Animated.View>;
+    const decline = <Animated.View style={{opacity: opacityY, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlDecline} width="128px" height="128px" /></Animated.View>;
 
     const scale = dragDistance.interpolate({
       inputRange: [0, 10, 220],
@@ -431,6 +454,9 @@ class CardStack extends Component {
             ]
           }, this.props.cardContainerStyle]}>
           {cardB}
+          {topCard === 'cardB'? accept : null} 
+          {topCard === 'cardB'? decline : null}
+
         </Animated.View>
         <Animated.View
           {...this._setPointerEvents(topCard, 'cardA')}
@@ -450,6 +476,9 @@ class CardStack extends Component {
             ]
           }, this.props.cardContainerStyle]}>
           {cardA}
+          {topCard === 'cardA'? accept : null}
+          {topCard === 'cardA'? decline: null}
+
         </Animated.View>
 
       </View>
