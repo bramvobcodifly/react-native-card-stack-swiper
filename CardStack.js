@@ -417,8 +417,8 @@ class CardStack extends Component {
 
     const opacityX = drag.x.interpolate({ inputRange: [-width / 3, width * .025, width / 3], outputRange: [0, 0, 1], extrapolate: 'clamp', });
     const opacityY = drag.x.interpolate({inputRange : [-width / 3, -width /  4, -width / 8], outputRange:[1, 1, 0], extrapolate: 'clamp', })
-    const accept = <Animated.View style={{opacity: opacityX, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlAccept} width="128px" height="128px" /></Animated.View>;
-    const decline = <Animated.View style={{opacity: opacityY, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlDecline} width="128px" height="128px" /></Animated.View>;
+    const accept = <Animated.View style={{elevation: 4, opacity: opacityX, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlAccept} width="128px" height="128px" /></Animated.View>;
+    const decline = <Animated.View style={{elevation: 4, opacity: opacityY, position: "absolute", top: '33%', left: '33%', zIndex: 1000 }}><SvgXml xml={xmlDecline} width="128px" height="128px" /></Animated.View>;
 
     const scale = dragDistance.interpolate({
       inputRange: [0, 10, 220],
